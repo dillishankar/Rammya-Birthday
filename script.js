@@ -4,21 +4,45 @@
 const CORRECT_PASSWORD = "Power3014";
 
 /* ─────────────────────────────────────────────
+   EMAIL JS INIT  ← only once, with your real key
+───────────────────────────────────────────── */
+emailjs.init("5rZcaouq7MemCzsCZ");
+
+/* ─────────────────────────────────────────────
    ENTRY FLOW (Heart → Password → Site)
 ───────────────────────────────────────────── */
+
+// Force video play as soon as possible (fixes mobile/browser autoplay blocks)
+document.addEventListener("DOMContentLoaded", () => {
+  const video = document.getElementById("entry-video");
+  if (video) {
+    video.muted = true; // ensure muted (required for autoplay)
+    video.play().catch((err) => {
+      console.warn("Autoplay blocked, will retry on interaction:", err);
+    });
+  }
+});
+
+// Retry video play on first user interaction (iOS Safari fix)
+document.addEventListener("touchstart", function retryVideo() {
+  const video = document.getElementById("entry-video");
+  if (video && video.paused) {
+    video.play().catch(() => {});
+  }
+  document.removeEventListener("touchstart", retryVideo);
+}, { passive: true });
 
 // Heart click → show password card
 function heartClick() {
   const heartBtn = document.getElementById("heart-btn");
   const greeting = document.getElementById("entry-greeting");
-  const pwdCard = document.getElementById("pwd-card");
+  const pwdCard  = document.getElementById("pwd-card");
 
   heartBtn.classList.add("filling");
 
   setTimeout(() => {
     heartBtn.classList.remove("filling");
     heartBtn.classList.add("filled");
-
     greeting.style.opacity = "0";
 
     setTimeout(() => {
@@ -38,13 +62,13 @@ function checkPassword() {
     error.classList.remove("show");
 
     const entry = document.getElementById("entry-screen");
-    const main = document.getElementById("main-site");
+    const main  = document.getElementById("main-site");
 
     entry.classList.add("exit");
 
     setTimeout(() => {
       entry.style.display = "none";
-      main.style.display = "block";
+      main.style.display  = "block";
       initMainSite();
     }, 700);
   } else {
@@ -78,9 +102,7 @@ function closeNav() {
 function initMainSite() {
   initScrollReveal();
   initGalleryPause();
-
-  // ADD THIS 👇
-  generateCalendar(2025, 1, "feb-grid"); // February (month index starts from 0)
+  generateCalendar(2025, 1, "feb-grid"); // February
   generateCalendar(2025, 2, "mar-grid"); // March
 }
 
@@ -108,10 +130,8 @@ function initScrollReveal() {
 
 function initGalleryPause() {
   const track = document.getElementById("gallery-track");
-
   if (!track) return;
 
-  // Mobile touch pause
   track.addEventListener("touchstart", () => {
     track.style.animationPlayState = "paused";
   });
@@ -125,9 +145,6 @@ function initGalleryPause() {
    SMALL UX IMPROVEMENTS
 ───────────────────────────────────────────── */
 
-// Prevent zoom double tap issues
-document.addEventListener("touchstart", () => { }, { passive: true });
-
 // Smooth scroll fix for mobile
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", function (e) {
@@ -139,7 +156,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-
 /* ─────────────────────────────────────────────
    CALENDAR GENERATION
 ───────────────────────────────────────────── */
@@ -150,7 +166,7 @@ function generateCalendar(year, month, gridId) {
 
   grid.innerHTML = "";
 
-  const firstDay = new Date(year, month, 1).getDay();
+  const firstDay    = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   for (let i = 0; i < firstDay; i++) {
@@ -164,13 +180,13 @@ function generateCalendar(year, month, gridId) {
     cell.classList.add("cal-day");
     cell.textContent = day;
 
-    // ⭐ FEB 14
+    // Feb 14 highlight
     if (year === 2025 && month === 1 && day === 14) {
       cell.classList.add("hi");
       cell.setAttribute("data-text", "First meet");
     }
 
-    // ⭐ MARCH 31
+    // March 31 highlight
     if (year === 2025 && month === 2 && day === 31) {
       cell.classList.add("hi");
       cell.setAttribute("data-text", "Ends with memories");
@@ -178,12 +194,12 @@ function generateCalendar(year, month, gridId) {
 
     grid.appendChild(cell);
   }
-
 }
 
 /* ─────────────────────────────────────────────
    DORAEMON WISH POPUP
 ───────────────────────────────────────────── */
+
 function openDoraemonWish() {
   document.getElementById("wish-overlay").classList.add("open");
 }
@@ -195,66 +211,23 @@ function closeDoraemonWish() {
 /* ─────────────────────────────────────────────
    LETTER — Toggle open/close
 ───────────────────────────────────────────── */
+
 function toggleLetter() {
   const envelope = document.getElementById("envelope");
-  const paper = document.getElementById("letter-paper");
-
+  const paper    = document.getElementById("letter-paper");
   envelope.classList.toggle("open");
   paper.classList.toggle("open");
 }
 
 /* ─────────────────────────────────────────────
-   MESSAGE — Send
+   MESSAGE — Send via EmailJS  ← only one version
 ───────────────────────────────────────────── */
+
 function sendMessage() {
-  const name = document.getElementById("msg-name").value.trim();
-  const body = document.getElementById("msg-body").value.trim();
+  const name    = document.getElementById("msg-name").value.trim();
+  const body    = document.getElementById("msg-body").value.trim();
   const success = document.getElementById("send-success");
-
-  if (!name || !body) {
-    // Shake both empty fields
-    if (!name) document.getElementById("msg-name").style.borderColor = "#f0708a";
-    if (!body) document.getElementById("msg-body").style.borderColor = "#f0708a";
-
-    setTimeout(() => {
-      document.getElementById("msg-name").style.borderColor = "";
-      document.getElementById("msg-body").style.borderColor = "";
-    }, 1200);
-    return;
-  }
-
-  // Show success
-  success.classList.add("show");
-
-  // Clear fields
-  document.getElementById("msg-name").value = "";
-  document.getElementById("msg-body").value = "";
-
-  // Hide success after 4 seconds
-  setTimeout(() => {
-    success.classList.remove("show");
-  }, 4000);
-}
-
-
-/* ─────────────────────────────────────────────
-   EMAIL JS INIT
-───────────────────────────────────────────── */
-emailjs.init("YOUR_PUBLIC_KEY"); // 🔁 Replace this
-
-/* ─────────────────────────────────────────────
-   EMAIL JS INIT
-───────────────────────────────────────────── */
-emailjs.init("5rZcaouq7MemCzsCZ");
-
-/* ─────────────────────────────────────────────
-   MESSAGE — Send via EmailJS
-───────────────────────────────────────────── */
-function sendMessage() {
-  const name = document.getElementById("msg-name").value.trim();
-  const body = document.getElementById("msg-body").value.trim();
-  const success = document.getElementById("send-success");
-  const btn = document.querySelector(".send-btn");
+  const btn     = document.querySelector(".send-btn");
 
   // Validate
   if (!name || !body) {
@@ -269,10 +242,10 @@ function sendMessage() {
 
   // Loading state
   btn.textContent = "Sending...";
-  btn.disabled = true;
+  btn.disabled    = true;
 
   emailjs.send("service_60xupfj", "template_5snu0jh", {
-    name: name,
+    name:    name,
     message: body
   })
   .then(() => {
