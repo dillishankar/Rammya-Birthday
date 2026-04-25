@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday, Rammya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sacramento&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       ENTRY SCREEN  (Phase 1: video + heart  |  Phase 2: password card)
+       ══════════════════════════════════════════════ -->
+  <div id="entry-screen">
+
+    <!-- Background video — replace src with your file -->
+    <video id="entry-video" autoplay muted loop playsinline>
+      <source src="VN20260425_154424.mp4" type="video/mp4">
+    </video>
+    <div class="entry-overlay"></div>
+    <div class="grain"></div>
+
+    <!-- Phase 1: greeting + heart button -->
+    <div class="entry-greeting" id="entry-greeting">
+      <p class="entry-eyebrow">for someone very special</p>
+      <h1 class="entry-title">Happy Birthday<br>Rammya</h1>
+      <!-- Outline heart SVG (no emoji) -->
+      <button class="heart-btn" id="heart-btn" aria-label="Open" onclick="heartClick()">
+        <svg class="heart-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="heart-path" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+               2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
+               C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5
+               c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="rgba(255,255,255,0.75)" stroke-width="1.2" fill="none" />
+        </svg>
+        <span class="heart-ring"></span>
+      </button>
+      <p class="entry-hint">Click to open</p>
+    </div>
+
+    <!-- Phase 2: password card -->
+    <div class="pwd-card" id="pwd-card">
+      <div class="pwd-card-inner">
+
+        <!-- Lock icon (SVG, no emoji) -->
+        <div class="pwd-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="11" width="18" height="11" rx="2.5" stroke="currentColor" stroke-width="1.4" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+            <circle cx="12" cy="16.5" r="1.5" fill="currentColor" />
+          </svg>
+        </div>
+
+        <h2 class="pwd-title">A Special Place</h2>
+        <p class="pwd-sub">Enter the secret password to unlock your surprise</p>
+
+        <div class="pwd-field-wrap">
+          <input type="password" id="pwd-input" class="pwd-field" placeholder="Enter password" autocomplete="off" />
+        </div>
+
+        <p class="pwd-error" id="pwd-error">Incorrect password — please try again.</p>
+
+        <button class="unlock-btn" onclick="checkPassword()">
+          Unlock
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+
+      </div>
+    </div>
+
+  </div><!-- /entry-screen -->
+
+
+  <!-- ══════════════════════════════════════════════
+       MAIN WEBSITE
+       ══════════════════════════════════════════════ -->
+  <div id="main-site">
+
+    <!-- NAVBAR -->
+    <nav id="navbar">
+      <div class="nav-logo">Rammya</div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu" onclick="toggleNav()">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" onclick="closeNav()">Home</a></li>
+        <li><a href="#highlights" onclick="closeNav()">Highlights</a></li>
+        <li><a href="#game" onclick="closeNav()">Game</a></li>
+        <li><a href="#journey" onclick="closeNav()">Our Journey</a></li>
+        <li><a href="#letter" onclick="closeNav()">Letter</a></li>
+        <li><a href="#message" onclick="closeNav()">Message</a></li>
+      </ul>
+    </nav>
+
+    <!-- ── HERO ──────────────────────────────────── -->
+    <section id="hero">
+
+      <img id="hero-image" src="fav.jpeg" alt="Rammya">
+      <div class="hero-fallback"></div>
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">today is yours</p>
+        <!-- Single-line responsive scaling via clamp + nowrap -->
+        <h1 class="hero-title">Happy Birthday Rammya</h1>
+        <div class="hero-rule"></div>
+        <p class="hero-sub">Every moment you exist makes the world more beautiful.</p>
+        <a href="#highlights" class="hero-cta">
+          <span>Explore</span>
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- ── DORAEMON EASTER EGG ── -->
+      <div id="doraemon-btn" onclick="openDoraemonWish()">
+        <img src="dore.png" alt="Doraemon" id="doraemon-icon" />
+      </div>
+
+      <!-- Wish Image Popup -->
+      <div id="wish-overlay" onclick="closeDoraemonWish()">
+        <div id="wish-popup" onclick="event.stopPropagation()">
+          <button id="wish-close" onclick="closeDoraemonWish()">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+          </button>
+          <img src="doremon_wish.png" alt="Birthday Wish" id="wish-img" />
+        </div>
+      </div>
+
+      <!-- Corner marks (decorative) -->
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
+    </section>
+
+    <!-- ── HIGHLIGHTS ─────────────────────────────── -->
+    <section id="highlights">
+      <div class="section-hd reveal">
+        <p class="s-eyebrow">memories</p>
+        <h2 class="s-title">Our Highlights</h2>
+      </div>
+
+      <!-- Infinite horizontal scroll strip -->
+      <div class="gallery-wrap">
+        <div class="gallery-track" id="gallery-track">
+          <!-- Original 6 cards -->
+          <div class="g-card" style="background:linear-gradient(135deg,#c2daf5,#daeeff)">
+            <div class="g-inner">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1" />
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+              </svg>
+              <span>Memory 1</span>
+            </div>
+          </div>
+          <div class="g-card" style="background:linear-gradient(135deg,#b4cfed,#c8e2fa)">
+            <div class="g-inner">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1" />
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+              </svg>
+              <span>Memory 2</span>
+            </div>
+          </div>
+          <div class="g-card" style="background:linear-gradient(135deg,#d0e6f8,#e0f1ff)">
+            <div class="g-inner">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1" />
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+              </svg>
+              <span>Memory 3</span>
+            </div>
+          </div>
+          <div class="g-card" style="background:linear-gradient(135deg,#a6c8e8,#bcd8f5)">
+            <div class="g-inner">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1" />
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+              </svg>
+              <span>Memory 4</span>
+            </div>
+          </div>
+          <div class="g-card" style="background:linear-gradient(135deg,#d6ecfc,#e8f6ff)">
+            <div class="g-inner">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1" />
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+              </svg>
+              <span>Memory 5</span>
+            </div>
+          </div>
+          <div class="g-card" style="background:linear-gradient(135deg,#b0cfe9,#c6e0f6)">
+            <div class="g-inner">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1" />
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+              </svg>
+              <span>Memory 6</span>
+            </div>
+          </div>
+          <!-- Duplicate set for seamless loop -->
+          <div class="g-card" style="background:linear-gradient(135deg,#c2daf5,#daeeff)">
+            <div class="g-inner"><svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1" />
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+              </svg><span>Memory 1</span></div>
+          </div>
+          <div class="g-card" style="background:linear-gradient(135deg,#b4cfed,#c8e2fa)">
+            <div class="g-inner"><svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1" />
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+              </svg><span>Memory 2</span></div>
+          </div>
+          <div class="g-card" style="background:linear-gradient(135deg,#d0e6f8,#e0f1ff)">
+            <div class="g-inner"><svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1" />
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+              </svg><span>Memory 3</span></div>
+          </div>
+          <div class="g-card" style="background:linear-gradient(135deg,#a6c8e8,#bcd8f5)">
+            <div class="g-inner"><svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1" />
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+              </svg><span>Memory 4</span></div>
+          </div>
+          <div class="g-card" style="background:linear-gradient(135deg,#d6ecfc,#e8f6ff)">
+            <div class="g-inner"><svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1" />
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+              </svg><span>Memory 5</span></div>
+          </div>
+          <div class="g-card" style="background:linear-gradient(135deg,#b0cfe9,#c6e0f6)">
+            <div class="g-inner"><svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1" />
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+              </svg><span>Memory 6</span></div>
+          </div>
+        </div>
+        <div class="gallery-fade left"></div>
+        <div class="gallery-fade right"></div>
+      </div>
+    </section>
+
+    <!-- ── OUR JOURNEY ────────────────────────────── -->
+    <section id="journey">
+      <div class="section-hd reveal">
+        <p class="s-eyebrow">timeline</p>
+        <h2 class="s-title">Our Journey</h2>
+        <p class="s-desc">February &amp; March — the months that changed everything.</p>
+      </div>
+
+      <div class="journey-wrap">
+        <!-- February -->
+        <div class="cal-month reveal">
+          <div class="cal-head">February 2025</div>
+          <div class="cal-dow">
+            <span>Sun</span><span>Mon</span><span>Tue</span>
+            <span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+          </div>
+          <div class="cal-grid" id="feb-grid"></div>
+        </div>
+        <!-- March -->
+        <div class="cal-month reveal">
+          <div class="cal-head">March 2025</div>
+          <div class="cal-dow">
+            <span>Sun</span><span>Mon</span><span>Tue</span>
+            <span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+          </div>
+          <div class="cal-grid" id="mar-grid"></div>
+        </div>
+      </div>
+
+      <!-- Memory popup -->
+      <div class="overlay" id="memory-overlay" onclick="closeMemory()">
+        <div class="mem-card" onclick="event.stopPropagation()">
+          <button class="x-btn" onclick="closeMemory()">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+          </button>
+          <span class="mem-badge" id="mem-badge"></span>
+          <h2 class="mem-title" id="mem-title"></h2>
+          <p class="mem-text" id="mem-text"></p>
+          <div class="mem-icon">
+            <!-- Heart outline icon as decoration -->
+            <svg viewBox="0 0 24 24" fill="none" width="28" height="28">
+              <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                stroke="#2d8ee8" stroke-width="1.3" fill="none" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LETTER SECTION ─────────────────────────── -->
+    <section id="letter">
+      <div class="section-hd reveal">
+        <p class="s-eyebrow">for you</p>
+        <h2 class="s-title">A Letter</h2>
+        <p class="s-desc">Something written straight from the heart.</p>
+      </div>
+
+      <div class="letter-wrap reveal">
+        <!-- Envelope -->
+        <div class="envelope" id="envelope" onclick="toggleLetter()">
+          <div class="env-flap"></div>
+          <div class="env-body">
+            <!-- Envelope letter icon (SVG) -->
+            <svg viewBox="0 0 24 24" fill="none" class="env-icon">
+              <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" stroke="currentColor"
+                stroke-width="1.2" />
+              <path d="M2 6l10 7 10-7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+            </svg>
+            <p class="env-hint">Click to open</p>
+          </div>
+        </div>
+
+        <!-- Letter paper (slides down on open) -->
+        <div class="letter-paper" id="letter-paper">
+          <div class="letter-body">
+            <p class="letter-date">April 2025</p>
+            <h3 class="letter-greet">My Dearest Rammya,</h3>
+            <p>Every birthday you celebrate is a reminder to me of how lucky this world is to have you in it. You are
+              not
+              just a person — you are a feeling. A warm morning. A gentle song that stays with you all day.</p>
+            <p>There are not enough words in every language I know to describe what your smile does to a room, or what
+              your laughter does to ordinary moments — it turns them into memories I will carry for a lifetime.</p>
+            <p>Today I want you to know: you are loved beyond measure. You are enough, you are magic, and you deserve
+              every beautiful thing life has to offer.</p>
+            <p>Happy Birthday, Rammya. Here is to you — every magnificent version of you, past, present, and all the
+              incredible ones still to come.</p>
+            <div class="letter-sign">
+              <p>Forever yours,</p>
+              <p class="letter-sig">With all my love</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MESSAGE SECTION ───────────────────────── -->
+    <section id="message">
+      <div class="section-hd reveal">
+        <p class="s-eyebrow">reach out</p>
+        <h2 class="s-title">Send a Message</h2>
+      </div>
+
+      <div class="msg-wrap reveal">
+        <div class="msg-card">
+
+          <div class="field-group">
+            <label class="field-label" for="msg-name">Your Name</label>
+            <input type="text" id="msg-name" class="field-input" placeholder="Your name" autocomplete="off" />
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="msg-body">Your Message</label>
+            <textarea id="msg-body" class="field-input field-ta" placeholder="Write something beautiful..."
+              rows="5"></textarea>
+          </div>
+
+          <button class="send-btn" onclick="sendMessage()">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Send
+          </button>
+
+          <div class="send-success" id="send-success">
+            <div class="success-icon">
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                <path d="M8 12l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <p>Thank you for your message</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <p class="ft-wordmark">Rammya</p>
+      <p class="ft-quote">Made with intention and love</p>
+      <div class="ft-rule"></div>
+      <p class="ft-fine">Always remembered. Always cherished.</p>
+    </footer>
+
+  </div><!-- /main-site -->
+
+
+  <!-- ── PUZZLE SUCCESS MODAL ─────────────────────── -->
+  <div class="modal-bg" id="puzzle-modal">
+    <div class="modal-box">
+      <!-- Filled heart SVG (no emoji) -->
+      <div class="modal-heart">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                   2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
+                   C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5
+                   c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#2d8ee8" />
+        </svg>
+      </div>
+      <h2 class="modal-hd">Well done</h2>
+      <p class="modal-txt">You put it all together — just like you do with everything you touch.</p>
+      <button class="modal-btn" onclick="closeModal()">Continue</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
