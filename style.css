@@ -472,60 +472,80 @@ section {
 /* ═══════════════════════════════════════════════════════
    HIGHLIGHTS — INFINITE SCROLL GALLERY
    ═══════════════════════════════════════════════════════ */
-#highlights {
-  background: var(--off);
-  padding-left: 0; padding-right: 0;
-}
-#highlights .section-hd { padding: 0 48px; }
-
+/* ── HIGHLIGHTS GALLERY IMPROVEMENTS ── */
 .gallery-wrap {
-  position: relative; overflow: hidden;
+  position: relative;
+  overflow: hidden;
+  padding: 40px 0;
 }
 
 .gallery-track {
-  display: flex; gap: 20px;
+  display: flex;
+  gap: 25px;
   width: max-content;
-  animation: scrollLeft 28s linear infinite;
-  padding: 16px 0;
+  animation: scrollLeft 35s linear infinite;
 }
-.gallery-track:hover { animation-play-state: paused; }
+
+.g-card {
+  width: 300px;
+  height: 400px;
+  border-radius: 24px;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+  background: #2d8ee8;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: transform 0.5s var(--ease);
+}
+
+.g-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.g-card:hover .g-img {
+  transform: scale(1.1);
+}
+
+.g-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 20px;
+  background: linear-gradient(transparent, rgba(119, 181, 217, 0.7));
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.g-card:hover .g-info {
+  opacity: 1;
+}
+
+.g-info span {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
 
 @keyframes scrollLeft {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
 
-.g-card {
-  width: 280px; height: 340px;
-  border-radius: var(--r-lg);
-  flex-shrink: 0;
-  overflow: hidden; position: relative;
-  cursor: pointer;
-  transition: transform .4s var(--ease), box-shadow .4s var(--ease);
-}
-.g-card:hover {
-  transform: scale(1.04);
-  box-shadow: var(--sh-card);
+/* Video styles */
+.g-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Video stretch aagama cover aagum */
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.g-inner {
-  width: 100%; height: 100%;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 12px; color: var(--b700);
-  transition: transform .5s var(--ease);
+/* Hover zoom effect for video also */
+.g-card:hover .g-video {
+  transform: scale(1.1);
 }
-.g-card:hover .g-inner { transform: scale(1.06); }
-.g-inner svg { width: 36px; height: 36px; opacity: .6; }
-.g-inner span { font-size: 13px; font-weight: 500; color: var(--mid); letter-spacing: 0.5px; }
-
-/* Fade edges */
-.gallery-fade {
-  position: absolute; top:0; bottom:0; width: 120px;
-  pointer-events: none; z-index: 2;
-}
-.gallery-fade.left  { left:0;  background: linear-gradient(to right, var(--off), transparent); }
-.gallery-fade.right { right:0; background: linear-gradient(to left,  var(--off), transparent); }
 
 /* ═══════════════════════════════════════════════════════
    OUR JOURNEY — CALENDAR (Redesigned)
@@ -1145,4 +1165,84 @@ footer {
 
 #wish-close:hover {
   background: rgba(255,255,255,0.32);
+}
+
+
+
+/* --- Journey Section V2 (Blue Theme) --- */
+#journey-v2 {
+  padding: 100px 5%;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 50px auto;
+}
+
+/* Vertical line fixed to blue */
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(0, 113, 227, 0.2); /* Light Apple Blue */
+  transform: translateX(-50%);
+}
+
+#growth-line {
+  background: #0071e3; /* Vibrant Blue */
+  height: 0; /* Animated via JS */
+  transition: height 0.1s linear;
+}
+
+.tm-item {
+  width: 100%;
+  margin-bottom: 80px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.tm-content {
+  width: 40%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.4s ease;
+}
+
+.tm-content:hover {
+  border-color: #0071e3;
+  transform: translateY(-5px);
+}
+
+.tm-dot {
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  width: 16px;
+  height: 16px;
+  background: #0071e3;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+/* Alternate Left/Right */
+.tm-item.left { justify-content: flex-start; }
+.tm-item.right { justify-content: flex-end; }
+
+/* --- Mobile Fixes --- */
+@media (max-width: 768px) {
+  .timeline-line { left: 20px; }
+  .tm-dot { left: 20px; }
+  .tm-content { width: 85%; margin-left: 50px; }
+  .tm-item.left, .tm-item.right { justify-content: flex-start; }
 }

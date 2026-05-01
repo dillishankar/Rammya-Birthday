@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("touchstart", function retryVideo() {
   const video = document.getElementById("entry-video");
   if (video && video.paused) {
-    video.play().catch(() => {});
+    video.play().catch(() => { });
   }
   document.removeEventListener("touchstart", retryVideo);
 }, { passive: true });
@@ -36,7 +36,7 @@ document.addEventListener("touchstart", function retryVideo() {
 function heartClick() {
   const heartBtn = document.getElementById("heart-btn");
   const greeting = document.getElementById("entry-greeting");
-  const pwdCard  = document.getElementById("pwd-card");
+  const pwdCard = document.getElementById("pwd-card");
 
   heartBtn.classList.add("filling");
 
@@ -62,13 +62,13 @@ function checkPassword() {
     error.classList.remove("show");
 
     const entry = document.getElementById("entry-screen");
-    const main  = document.getElementById("main-site");
+    const main = document.getElementById("main-site");
 
     entry.classList.add("exit");
 
     setTimeout(() => {
       entry.style.display = "none";
-      main.style.display  = "block";
+      main.style.display = "block";
       initMainSite();
     }, 700);
   } else {
@@ -127,16 +127,17 @@ function initScrollReveal() {
 /* ─────────────────────────────────────────────
    HIGHLIGHTS (Pause on touch/mobile)
 ───────────────────────────────────────────── */
-
+// Add this inside your initMainSite() function or at the bottom
 function initGalleryPause() {
   const track = document.getElementById("gallery-track");
   if (!track) return;
 
-  track.addEventListener("touchstart", () => {
+  // Pause animation on hover
+  track.addEventListener("mouseenter", () => {
     track.style.animationPlayState = "paused";
   });
 
-  track.addEventListener("touchend", () => {
+  track.addEventListener("mouseleave", () => {
     track.style.animationPlayState = "running";
   });
 }
@@ -166,7 +167,7 @@ function generateCalendar(year, month, gridId) {
 
   grid.innerHTML = "";
 
-  const firstDay    = new Date(year, month, 1).getDay();
+  const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   for (let i = 0; i < firstDay; i++) {
@@ -214,7 +215,7 @@ function closeDoraemonWish() {
 
 function toggleLetter() {
   const envelope = document.getElementById("envelope");
-  const paper    = document.getElementById("letter-paper");
+  const paper = document.getElementById("letter-paper");
   envelope.classList.toggle("open");
   paper.classList.toggle("open");
 }
@@ -224,10 +225,10 @@ function toggleLetter() {
 ───────────────────────────────────────────── */
 
 function sendMessage() {
-  const name    = document.getElementById("msg-name").value.trim();
-  const body    = document.getElementById("msg-body").value.trim();
+  const name = document.getElementById("msg-name").value.trim();
+  const body = document.getElementById("msg-body").value.trim();
   const success = document.getElementById("send-success");
-  const btn     = document.querySelector(".send-btn");
+  const btn = document.querySelector(".send-btn");
 
   // Validate
   if (!name || !body) {
@@ -242,24 +243,53 @@ function sendMessage() {
 
   // Loading state
   btn.textContent = "Sending...";
-  btn.disabled    = true;
+  btn.disabled = true;
 
   emailjs.send("service_60xupfj", "template_5snu0jh", {
-    name:    name,
+    name: name,
     message: body
   })
-  .then(() => {
-    success.classList.add("show");
-    document.getElementById("msg-name").value = "";
-    document.getElementById("msg-body").value = "";
-    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Send`;
-    btn.disabled = false;
-    setTimeout(() => success.classList.remove("show"), 4000);
-  })
-  .catch((err) => {
-    console.error("EmailJS error:", err);
-    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Send`;
-    btn.disabled = false;
-    alert("Something went wrong. Please try again.");
-  });
+    .then(() => {
+      success.classList.add("show");
+      document.getElementById("msg-name").value = "";
+      document.getElementById("msg-body").value = "";
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Send`;
+      btn.disabled = false;
+      setTimeout(() => success.classList.remove("show"), 4000);
+    })
+    .catch((err) => {
+      console.error("EmailJS error:", err);
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Send`;
+      btn.disabled = false;
+      alert("Something went wrong. Please try again.");
+    });
 }
+
+
+// Function to handle the Timeline Growth
+function updateTimeline() {
+  const timeline = document.querySelector('.timeline-container');
+  const growthLine = document.getElementById('growth-line');
+
+  if (!timeline || !growthLine) return;
+
+  const rect = timeline.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+
+  // Calculate how much of the timeline is visible
+  if (rect.top < windowHeight) {
+    const visiblePart = windowHeight - rect.top;
+    const totalHeight = rect.height;
+    let progress = (visiblePart / totalHeight) * 100;
+
+    // Clamp between 0 and 100
+    progress = Math.min(Math.max(progress, 0), 100);
+    growthLine.style.height = progress + "%";
+  }
+}
+
+
+// Listen for scroll events
+window.addEventListener('scroll', () => {
+  updateTimeline();
+});
